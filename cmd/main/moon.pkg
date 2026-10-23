@@ -1,0 +1,5 @@
+// import {
+//   "username/hydro_csv" @lib,
+// }
+
+pkgtype(kind: "executable")
