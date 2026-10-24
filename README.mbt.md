@@ -13,18 +13,24 @@
 ## 当前进度
 
 - [x] 项目工程结构搭建（moon.mod / moon.pkg / 测试框架）
-- [x] max_value：在压力时序中定位峰值，含空数组边界处理
-- [ ] CSV 文本解析（按行读取、按列拆分、字符串转数值）
-- [ ] 均值、峰值时刻、滑动窗口平滑
-- [ ] 阈值告警
-- [ ] 完整使用文档与可运行示例
+- [x] max_value / min_value：定位压力峰值与谷值，含空数组边界处理
+- [x] split_lines / split_columns / parse_double：CSV 文本按行、按列解析并转数值
+- [x] mean：平均压力
+- [x] peak_index：峰值出现的采样点位置
+- [x] moving_average：滑动窗口平滑，抑制噪声
+- [x] count_above：超阈值采样点计数（告警）
+- [x] parse_column：从整段文本直接得到数值序列（完整流水线）
 
 ## 使用示例
 
-假设已有一组压力采样值（单位 MPa）：
+假设 CSV 文本每行一个压力值（单位 MPa）：
 
-    let pressures : Array[Double] = [0.5, 1.8, 3.6, 5.0, 2.2]
-    println(max_value(pressures))    // 输出 5.0
+    let text = "0.5\n1.8\n3.6\n5.0\n2.2\n"
+    let pressures = parse_column(text)       // [0.5, 1.8, 3.6, 5.0, 2.2]
+    println(max_value(pressures))            // 峰值 5.0
+    println(peak_index(pressures))           // 峰值位置 3
+    println(mean(pressures))                 // 平均值 2.62
+    println(count_above(pressures, 3.0))     // 超 3.0 的个数 2
 
 ## 运行测试
 
