@@ -177,3 +177,17 @@ test "parse_double 文本转数值" {
   assert_eq(parse_double("3.6"), 3.6)
   assert_eq(parse_double("0.5"), 0.5)
 }
+
+/// 把一列压力文本（每行一个数）转成数值数组
+/// 用途：完整流水线——按行拆、转数值，直接得到可统计的序列
+pub fn parse_column(text : String) -> Array[Double] {
+  let values : Array[Double] = []
+  for line in split_lines(text) {
+    values.push(parse_double(line))
+  }
+  values
+}
+
+test "parse_column 完整流水线" {
+  assert_eq(parse_column("0.5\n1.8\n3.6\n"), [0.5, 1.8, 3.6])
+}
