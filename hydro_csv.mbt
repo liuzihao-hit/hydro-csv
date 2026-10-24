@@ -41,3 +41,18 @@ test "split_lines 按行拆分" {
   assert_eq(split_lines("a,b\r\nc,d"), ["a,b", "c,d"])
   assert_eq(split_lines(""), [])
 }
+
+/// 按逗号把一行 CSV 拆成多个字段
+/// 用途：一行里可能同时有压力、位移等多列传感器数据
+pub fn split_columns(line : String) -> Array[String] {
+  let cols : Array[String] = []
+  for part in line.split(",") {
+    cols.push(part.to_owned())
+  }
+  cols
+}
+
+test "split_columns 按逗号拆列" {
+  assert_eq(split_columns("1.2,3.4,5.6"), ["1.2", "3.4", "5.6"])
+  assert_eq(split_columns("single"), ["single"])
+}
