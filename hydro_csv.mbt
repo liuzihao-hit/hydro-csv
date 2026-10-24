@@ -119,3 +119,28 @@ test "peak_index 定位峰值" {
   assert_eq(peak_index([5.0]), 0)
   assert_eq(peak_index([]), -1)
 }
+
+/// 滑动窗口平均，用于平滑传感器噪声
+/// 返回每个窗口的平均值，不完整的尾部丢弃
+pub fn moving_average(data : Array[Double], window : Int) -> Array[Double] {
+  let out : Array[Double] = []
+  if window <= 0 || data.length() < window {
+    return out
+  }
+  let mut i = 0
+  while i + window <= data.length() {
+    let mut sum = 0.0
+    for j = i; j < i + window; j = j + 1 {
+      sum = sum + data[j]
+    }
+    out.push(sum / window.to_double())
+    i = i + 1
+  }
+  out
+}
+
+test "moving_average 滑动窗口平滑" {
+  assert_eq(moving_average([1.0, 2.0, 3.0, 4.0], 2), [1.5, 2.5, 3.5])
+  assert_eq(moving_average([1.0], 2), [])
+  assert_eq(moving_average([1.0, 2.0], 0), [])
+}
