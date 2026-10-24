@@ -96,3 +96,26 @@ test "mean 计算平均值" {
   assert_eq(mean([5.0]), 5.0)
   assert_eq(mean([]), 0.0)
 }
+
+/// 找出最大值的下标（峰值时刻）
+/// 用途：定位压力峰值出现在第几个采样点
+pub fn peak_index(data : Array[Double]) -> Int {
+  if data.length() == 0 {
+    return -1
+  }
+  let mut idx = 0
+  let mut best = data[0]
+  for i = 1; i < data.length(); i = i + 1 {
+    if data[i] > best {
+      best = data[i]
+      idx = i
+    }
+  }
+  idx
+}
+
+test "peak_index 定位峰值" {
+  assert_eq(peak_index([0.5, 1.8, 3.6, 5.0, 2.2]), 3)
+  assert_eq(peak_index([5.0]), 0)
+  assert_eq(peak_index([]), -1)
+}
