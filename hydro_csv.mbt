@@ -77,3 +77,22 @@ test "min_value 找出谷值" {
   assert_eq(min_value([5.0]), 5.0)
   assert_eq(min_value([]), 0.0)
 }
+
+/// 计算一组数据的平均值
+/// 用途：求整段压力时序的平均压力
+pub fn mean(data : Array[Double]) -> Double {
+  if data.length() == 0 {
+    return 0.0
+  }
+  let mut sum = 0.0
+  for i = 0; i < data.length(); i = i + 1 {
+    sum = sum + data[i]
+  }
+  sum / data.length().to_double()
+}
+
+test "mean 计算平均值" {
+  assert_eq(mean([1.0, 2.0, 3.0]), 2.0)
+  assert_eq(mean([5.0]), 5.0)
+  assert_eq(mean([]), 0.0)
+}
