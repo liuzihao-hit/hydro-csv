@@ -144,3 +144,21 @@ test "moving_average 滑动窗口平滑" {
   assert_eq(moving_average([1.0], 2), [])
   assert_eq(moving_average([1.0, 2.0], 0), [])
 }
+
+/// 统计超过阈值的采样点个数
+/// 用途：判断压力是否超限、超限出现多少次
+pub fn count_above(data : Array[Double], threshold : Double) -> Int {
+  let mut n = 0
+  for i = 0; i < data.length(); i = i + 1 {
+    if data[i] > threshold {
+      n = n + 1
+    }
+  }
+  n
+}
+
+test "count_above 超阈值计数" {
+  assert_eq(count_above([0.5, 1.8, 3.6, 5.0, 2.2], 3.0), 2)
+  assert_eq(count_above([0.5, 1.8], 3.0), 0)
+  assert_eq(count_above([], 3.0), 0)
+}
