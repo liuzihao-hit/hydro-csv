@@ -162,3 +162,18 @@ test "count_above 超阈值计数" {
   assert_eq(count_above([0.5, 1.8], 3.0), 0)
   assert_eq(count_above([], 3.0), 0)
 }
+
+/// 把 CSV 字段文本转成数值（假设输入为合法数字文本）
+/// 用途：split 出来的字符串列要变成能参与计算的数字
+pub fn parse_double(s : String) -> Double {
+  try {
+    @string.parse_double(s)
+  } catch {
+    _ => 0.0
+  }
+}
+
+test "parse_double 文本转数值" {
+  assert_eq(parse_double("3.6"), 3.6)
+  assert_eq(parse_double("0.5"), 0.5)
+}
